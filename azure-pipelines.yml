@@ -23,6 +23,7 @@ steps:
 #   displayName: copy libcurl.dll to $rubyLocation
   
 - script: |
+    gem install bundler
     bundle install --retry=3 --jobs=4
   displayName: 'bundle install'
 
