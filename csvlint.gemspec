@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rack"
   spec.add_dependency "net-http-persistent", "< 3.0"
 
-  spec.add_development_dependency "bundler", "~> 1.3"
+  spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "cucumber"
   spec.add_development_dependency "simplecov"
@@ -49,5 +49,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rdf", "< 2.0"
   spec.add_development_dependency "rdf-turtle"
   spec.add_development_dependency "henry"
+  spec.add_development_dependency "ocra"
 
 end
