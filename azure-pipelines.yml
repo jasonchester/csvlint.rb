@@ -17,10 +17,10 @@ steps:
     versionSpec: '>= 2.4'
     addToPath: true
 
-- pwsh: |
-    $rubyFolder = (Get-Item -Path ((Get-Command -Name ruby).Source)).Directory.FullName
-    Copy-Item -Path .\csvlint\libcurl.dll -Destination "$rubyFolder" -Verbose
-  displayName: copy libcurl.dll to $rubyLocation
+# - pwsh: |
+#     $rubyFolder = (Get-Item -Path ((Get-Command -Name ruby).Source)).Directory.FullName
+#     Copy-Item -Path .\csvlint\libcurl.dll -Destination "$rubyFolder" -Verbose
+#   displayName: copy libcurl.dll to $rubyLocation
   
 - script: |
     gem install ocra 
