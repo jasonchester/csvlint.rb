@@ -24,7 +24,7 @@ steps:
   
 - script: |
     gem install bundler ocra
-    bundle install --retry=3 --jobs=4
+    bundle install --retry=3 --jobs=4 --verbose
   displayName: 'bundle install'
 
 # - script: |
@@ -32,11 +32,11 @@ steps:
 #   displayName: 'bundle exec rake'
 
 - script: |
-    ocra --console "bin/csvlint" --no-autoload --dll 'libcurl.dll' --gem-all --output './csvlint.exe'
+    ocra --console "./bin/csvlint" --no-autoload --dll 'libcurl.dll' --gem-all --output './csvlint.exe'
   displayName: Build csvlint.exe
 
 - script: |
-    ocra --console "bin/create_schema" --no-autoload --dll 'libcurl.dll' --gem-all --output './create_schema.exe'
+    ocra --console "./bin/create_schema" --no-autoload --dll 'libcurl.dll' --gem-all --output './create_schema.exe'
   displayName: Build create_schema.exe
 
 - task: CopyFiles@2
