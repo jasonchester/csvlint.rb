@@ -23,11 +23,11 @@ steps:
 #   displayName: copy libcurl.dll to $rubyLocation
   
 - script: |
-    gem install ocra 
     bundle install --retry=3 --jobs=4
   displayName: 'bundle install'
 
-- script: bundle exec rake
+- script: |
+    bundle exec rake
   displayName: 'bundle exec rake'
 
 - script: |
