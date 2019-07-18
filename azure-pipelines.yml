@@ -17,26 +17,26 @@ steps:
     versionSpec: '~= 2.4'
     addToPath: true
 
-# - pwsh: |
-#     $rubyFolder = (Get-Item -Path ((Get-Command -Name ruby).Source)).Directory.FullName
-#     Copy-Item -Path .\csvlint\libcurl.dll -Destination "$rubyFolder" -Verbose
-#   displayName: copy libcurl.dll to $rubyLocation
+- pwsh: |
+    $rubyFolder = (Get-Item -Path ((Get-Command -Name ruby).Source)).Directory.FullName
+    Copy-Item -Path .\csvlint\libcurl.dll -Destination "$rubyFolder" -Verbose
+  displayName: copy libcurl.dll to $rubyLocation
   
 - pwsh: |
-    gem install bundler ocra
-    bundle install --retry=3 --jobs=4 --verbose
+    gem install bundler
+    bundle install --retry=3 --jobs=4
   displayName: 'bundle install'
 
-# - script: |
-#     bundle exec rake
-#   displayName: 'bundle exec rake'
+- pwsh: |
+    bundle exec rake
+  displayName: 'bundle exec rake'
 
-- script: |
-    ocra --console "./bin/csvlint" --no-autoload --dll 'libcurl.dll' --gem-all --output './csvlint.exe'
+- pwsh: |
+    bundle exec ocra --console "./bin/csvlint" --no-autoload --dll 'libcurl.dll' --gem-all --output './csvlint.exe'
   displayName: Build csvlint.exe
 
-- script: |
-    ocra --console "./bin/create_schema" --no-autoload --dll 'libcurl.dll' --gem-all --output './create_schema.exe'
+- pwsh: |
+    bundle exec ocra --console "./bin/create_schema" --no-autoload --dll 'libcurl.dll' --gem-all --output './create_schema.exe'
   displayName: Build create_schema.exe
 
 - task: CopyFiles@2
