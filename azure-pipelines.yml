@@ -11,11 +11,17 @@ pool:
   vmImage: vs2017-win2016
 
 steps:
+
 - task: UseRubyVersion@0
   inputs:
-    versionSpec: '>= 2.6'
+    versionSpec: '>= 2.4'
     addToPath: true
 
+- pwsh: |
+    $rubyFolder = (Get-Item -Path ((Get-Command -Name ruby).Source)).Directory.FullName
+    Copy-Item -Path .\csvlint\libcurl.dll -Destination "$rubyFolder" -Verbose
+  displayName: copy libcurl.dll to $rubyLocation
+  
 - script: |
     gem install ocra 
     bundle install --retry=3 --jobs=4
@@ -23,3 +29,23 @@ steps:
 
 - script: bundle exec rake
   displayName: 'bundle exec rake'
+
+- script: |
+    bundle exec ocra --console "bin/csvlint" --no-autoload --dll 'libcurl.dll' --gem-all --output './csvlint.exe'
+  displayName: Build csvlint.exe
+
+- script: |
+    bundle exec ocra --console "bin/create_schema" --no-autoload --dll 'libcurl.dll' --gem-all --output './create_schema.exe'
+  displayName: Build create_schema.exe
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/'
+    Contents: '*.exe'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/csvlint'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/csvlint/'
+    ArtifactName: 'csvlint'
+    publishLocation: Container
